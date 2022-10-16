@@ -7,11 +7,18 @@
 <body>
 <form th:method="PATCH" th:action="@{/people/{id}(id=${person.getId()})}" th:object="${person}">
     <label for="name">Name</label>
-    <input id="name" name="name" th:field="*{name}" type="text">
-
+    <input id="name" th:field="*{name}" type="text">
+    <p style="color: lightcoral" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">ERROR</p>
     <br>
-
-    <button type="submit">Update person</button>
+    <label for="email">Email</label>
+    <input id="email" th:field="*{email}" type="email">
+    <p style="color: lightcoral" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">ERROR</p>
+    <br>
+    <label for="age">Age</label>
+    <input id="age" th:field="*{age}" type="number">
+    <p style="color: lightcoral" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">ERROR</p>
+    <br>
+    <input type="submit" value="Update person"/>
 </form>
 </body>
 </html>

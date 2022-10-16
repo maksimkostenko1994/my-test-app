@@ -6,9 +6,15 @@
 </head>
 <body>
     <div>
-        <p th:text="${person.getName()}">VALUE</p>
+        <p th:text="${person.getName()} + ', ' + ${person.getAge()}">VALUE</p>
+        <p th:text="${person.getEmail()}">VALUE</p>
         <p th:text="${person.getId()}">VALUE</p>
     </div>
+    <a th:href="@{/people/{id}/edit(id=${person.getId()})}">Edit</a>
+    <br>
+    <form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
+        <button type="submit">Delete person</button>
+    </form>
     <a href="/people">Back</a>
 </body>
 </html>

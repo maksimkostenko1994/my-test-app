@@ -5,7 +5,10 @@ import maks.project.models.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/people")
@@ -42,8 +45,13 @@ public class PeopleController {
 
     @PostMapping()
     public String create(
-            @ModelAttribute("person") Person person
+            @ModelAttribute("person") @Valid Person person,
+            BindingResult bindingResult
     ) {
+
+        if(bindingResult.hasErrors()) {
+            return "people/createPerson";
+        }
         personDAO.create(person);
         return "redirect:/people";
     }
@@ -56,10 +64,20 @@ public class PeopleController {
 
     @PatchMapping("/{id}")
     public String update(
-            @ModelAttribute("person") Person person,
+            @ModelAttribute("person") @Valid Person person,
+            BindingResult bindingResult,
             @PathVariable("id") int id
     ) {
+        if(bindingResult.hasErrors()) {
+            return "people/editPerson";
+        }
         personDAO.update(id, person);
+        return "redirect:/people";
+    }
+
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable("id") int id) {
+        personDAO.remove(id);
         return "redirect:/people";
     }
 }
